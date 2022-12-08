@@ -14,6 +14,11 @@ def get_file(filepath):
 
 
 def get_email_addresses(text):
+    """
+    Extracts email addresses of varying formats from a text string, removes duplicates, returns a sorted list.
+    :param text: String
+    :return: List
+    """
     pattern_email = r"([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)"
 
     emails = re.findall(pattern_email, text)
@@ -25,6 +30,11 @@ def get_email_addresses(text):
 
 
 def sort_emails(lst):
+    """
+    Sorts list of email addresses.
+    :param lst: List
+    :return: List
+    """
     lst.sort(key=lambda x: x.split('@')[0])
     return lst
 
@@ -76,9 +86,13 @@ def format_phone_number(num):
 
 
 def sort_phone_numbers(lst):
+    """
+    Sort list of phone numbers.
+    :param lst: List
+    :return: List
+    """
     lst.sort(key=lambda x: int(''.join(x[:12].split('-'))))
     return lst
-
 
 
 def format_main_num(num):

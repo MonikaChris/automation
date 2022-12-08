@@ -13,6 +13,22 @@ def get_file(filepath):
         return reader.read()
 
 
+def get_email_addresses(text):
+    pattern_email = r"([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)"
+
+    emails = re.findall(pattern_email, text)
+
+    # Remove duplicates
+    emails = set(emails)
+    sorted_emails = sort_emails(list(emails))
+    return sorted_emails
+
+
+def sort_emails(lst):
+    lst.sort(key=lambda x: x.split('@')[0])
+    return lst
+
+
 def get_phone_numbers(text):
     """
     Extracts phone numbers of varying formats from a text string, removes duplicates, returns list.
@@ -147,7 +163,8 @@ if __name__ == "__main__":
     num_lst_short = get_new_phone_numbers('./assets/potential-contacts.txt', './assets/existing-contacts.txt')
     write_list_to_file(num_lst_short, 'phone_numbers_no_dupes.txt', 'assets')
 
-
-
-
+    # Extract all email addresses, sort, write them to a text file
+    text_content = get_file('./assets/potential-contacts.txt')
+    email_addresses = get_email_addresses(text_content)
+    write_list_to_file(email_addresses, 'emails.txt', 'assets')
 

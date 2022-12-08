@@ -27,7 +27,6 @@ def get_phone_numbers(text):
 
     # Remove duplicates
     numbers = set(numbers)
-
     return list(numbers)
 
 
@@ -40,7 +39,8 @@ def format_phone_numbers(phone_numbers):
     formatted_phone_nums = []
     for num in phone_numbers:
         formatted_phone_nums.append(format_phone_number(num))
-    return formatted_phone_nums
+
+    return sort_phone_numbers(formatted_phone_nums)
 
 
 def format_phone_number(num):
@@ -57,6 +57,12 @@ def format_phone_number(num):
 
     else:
         return format_main_num(num)
+
+
+def sort_phone_numbers(lst):
+    lst.sort(key=lambda x: int(''.join(x[:12].split('-'))))
+    return lst
+
 
 
 def format_main_num(num):

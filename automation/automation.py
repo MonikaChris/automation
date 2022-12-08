@@ -15,7 +15,7 @@ def get_file(filepath):
 
 def get_phone_numbers(text):
     """
-    Extracts phone numbers of varying formats from a text string.
+    Extracts phone numbers of varying formats from a text string, removes duplicates, returns list.
     :param text: String
     :return: List
     """
@@ -23,7 +23,12 @@ def get_phone_numbers(text):
     # Search text for phone numbers
     pattern_phone_num = r'(?:(?:\+)?\d{1,3}[\s-])?\(?:?\d{3}\)?[\s.-]\d{2,3}[\s.-]\d{4}(?:x\d+)?|(?:\d{10})'
 
-    return re.findall(pattern_phone_num, text)
+    numbers = re.findall(pattern_phone_num, text)
+
+    # Remove duplicates
+    numbers = set(numbers)
+
+    return list(numbers)
 
 
 def format_phone_numbers(phone_numbers):
@@ -71,8 +76,11 @@ def format_main_num(num):
     while len(number) > 10:
         number = number[1:]
 
-    # Return formatted phone number
-    return number[:3] + '-' + number[3:6] + '-' + number[6:]
+    # Return formatted phone number - if missing area code, insert area code 206
+    if len(number) == 7:
+        return '206-' + number[:3] + '-' + number[3:]
+    else:
+        return number[:3] + '-' + number[3:6] + '-' + number[6:]
 
 
 def get_new_phone_numbers(new_file, old_file):

@@ -168,7 +168,8 @@ def write_list_to_file(lst, filename, directory):
     with open(filename, 'w') as f:
         f.write(content)
 
-    shutil.move(filename, directory)
+    shutil.copy(filename, directory)
+    os.remove(filename)
 
 
 if __name__ == "__main__":

@@ -64,7 +64,9 @@ def format_phone_numbers(phone_numbers):
     """
     formatted_phone_nums = []
     for num in phone_numbers:
-        formatted_phone_nums.append(format_phone_number(num))
+        form_num = format_phone_number(num)
+        if form_num:
+            formatted_phone_nums.append(form_num)
 
     return sort_phone_numbers(formatted_phone_nums)
 
@@ -107,6 +109,10 @@ def format_main_num(num):
     for i in range(len(num)):
         if num[i].isnumeric():
             number += num[i]
+
+    # Delete 8 and 9-digit numbers
+    if len(number) == 8 or len(number) == 9:
+        return
 
     # Remove excess front digits
     while len(number) > 10:
@@ -159,10 +165,11 @@ def write_list_to_file(lst, filename, directory):
     if not os.path.isdir(directory):
         os.mkdir(directory)
 
-    with open(filename, 'w+') as f:
+    with open(filename, 'w') as f:
         f.write(content)
 
-    shutil.move(filename, directory)
+    shutil.copy(filename, directory)
+    os.remove(filename)
 
 
 if __name__ == "__main__":
@@ -181,4 +188,3 @@ if __name__ == "__main__":
     text_content = get_file('./assets/potential-contacts.txt')
     email_addresses = get_email_addresses(text_content)
     write_list_to_file(email_addresses, 'emails.txt', 'assets')
-
